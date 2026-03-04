@@ -8,7 +8,7 @@ public record DadosTopicoAtualizado(
         String mensagem,
         LocalDateTime dataCriacao
 ) {
-    // O construtor que converte a Entidade neste formato enxuto
+
     public DadosTopicoAtualizado(Topico topico) {
         this(
                 topico.getId(),

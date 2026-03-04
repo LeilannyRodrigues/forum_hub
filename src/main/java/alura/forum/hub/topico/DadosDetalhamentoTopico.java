@@ -11,7 +11,7 @@ public record DadosDetalhamentoTopico(
         String autor,
         String curso
 ) {
-    // Construtor que pega a Entidade Topico e extrai só o que o Trello pediu
+
     public DadosDetalhamentoTopico(Topico topico) {
         this(
                 topico.getId(),
@@ -19,8 +19,8 @@ public record DadosDetalhamentoTopico(
                 topico.getMensagem(),
                 topico.getDataCriacao(),
                 topico.getStatus(),
-                topico.getAutor().getNome(), // Pega o nome do autor
-                topico.getCurso().getNome()  // Pega o nome do curso
+                topico.getAutor().getNome(),
+                topico.getCurso().getNome()
         );
     }
 }

@@ -11,12 +11,12 @@ public record DadosListagemTopicos(
         String autor,
         String curso
 ) {
-    // Construtor que transforma a Entidade Topico neste DTO enxuto
+
     public DadosListagemTopicos(Topico topico) {
         this(topico.getId(), topico.getTitulo(), topico.getMensagem(), topico.getDataCriacao(),
                 topico.getStatus(),
-                topico.getAutor().getNome(), // Vai na tabela de usuários e pega só o nome!
-                topico.getCurso().getNome()  // Vai na tabela de cursos e pega só o nome!
+                topico.getAutor().getNome(),
+                topico.getCurso().getNome()
         );
     }
 }
