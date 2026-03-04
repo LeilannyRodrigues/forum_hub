@@ -61,7 +61,7 @@ A API não devolve o "Trace" de erro do Java para o cliente. Os erros são mapea
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/LeilannyRodrigues/forum_hub.git](https://github.com/LeilannyRodrigues/forum_hub.git)
+   git clone https://github.com/LeilannyRodrigues/forum_hub.git
    ```
 
 2. **Configure o Banco de Dados MySQL:**
