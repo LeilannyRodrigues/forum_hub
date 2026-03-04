@@ -2,13 +2,16 @@ package alura.forum.hub.controller;
 
 import alura.forum.hub.curso.CursoRepository;
 import alura.forum.hub.topico.*;
+import alura.forum.hub.usuario.Usuario;
 import alura.forum.hub.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -28,15 +31,15 @@ public class TopicosController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosDetalhamentoTopico> cadastrar(@RequestBody @Valid DadosCadastroTopico dados, UriComponentsBuilder uriBuilder) {
-        var autor = usuarioRepository.getReferenceById(dados.idAutor());
-        var curso = cursoRepository.findByNome(dados.nomeCurso());
+    public ResponseEntity<DadosDetalhamentoTopico> cadastrar(@RequestBody @Valid @NotNull DadosCadastroTopico dados,
+            @AuthenticationPrincipal Usuario usuarioLogado, UriComponentsBuilder uriBuilder) {
 
-        var topico = new Topico(dados, autor, curso);
+        var curso = cursoRepository.findByNome(dados.nomeCurso());
+        var topico = new Topico(dados, usuarioLogado, curso);
+
         topicoRepository.save(topico);
 
         var uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
-
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTopico(topico));
     }
 
