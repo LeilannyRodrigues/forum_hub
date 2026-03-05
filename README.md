@@ -1,87 +1,80 @@
-# 💬 Fórum Hub API
+# 🗣️ Fórum Hub API
 
-O **Fórum Hub** é uma API REST desenvolvida em Java com Spring Boot, construída para simular o backend de um fórum de discussões. O projeto foca em boas práticas de engenharia de software, incluindo segurança com JWT, validações e tratamento de erros.
+API RESTful para um sistema de fórum construída com **Java e Spring Boot** — projeto desenvolvido como desafio final do curso de back-end da **Alura** em parceria com o **Oracle Next Education (ONE)**.
 
-Este projeto é a resolução do Challenge Back-End do programa Oracle Next Education (ONE) em parceria com a Alura.
+---
 
-## 🚀 Tecnologias Utilizadas
+## 🧠 Visão Geral
 
-* **Java 17**
-* **Spring Boot 3** (Web, Validation, Security)
-* **Spring Data JPA** (Persistência de dados)
-* **MySQL** (Banco de Dados Relacional)
-* **Flyway** (Gerenciamento de Migrations)
-* **Spring Security & JWT (Auth0)** (Autenticação Stateless)
-* **Lombok** (Redução de código boilerplate)
-* **Insomnia** (Para testes de API)
+O objetivo do Fórum Hub API é fornecer um backend robusto para aplicações de fórum de discussões, garantindo segurança e integridade dos dados. O sistema permite operações como:
 
-## 🏗️ Arquitetura do Projeto
+* 📌 **CRUD de tópicos** (Criar, Listar, Atualizar e Deletar)
+* 🔐 **Autenticação e autorização** de usuários
+* 🛡️ **Proteção de rotas** (Separação entre rotas públicas e privadas)
 
-A API foi desenvolvida seguindo o padrão de projeto MVC adaptado para REST, garantindo separação de responsabilidades:
-* **Controllers:** Roteamento e recebimento das requisições HTTP.
-* **Repositories:** Interfaces do Spring Data JPA para comunicação com o banco de dados.
-* **DTOs (Data Transfer Objects):** Padrão utilizado para mapear exatamente os dados que entram e saem da API, blindando as entidades do banco de dados.
-* **Infra/Security:** Configurações de filtros de segurança e geração de tokens JWT.
-* **Exception Handler:** Tratamento global de exceções para padronizar as respostas de erro da API.
+---
 
-## 🔒 Segurança e Autenticação
+## 🚀 Funcionalidades
 
-A API é restrita. Para interagir com os tópicos, o usuário precisa estar autenticado. O fluxo funciona da seguinte forma:
-1. O usuário envia credenciais (`login` e `senha`) para a rota `/login`.
-2. O Spring Security verifica o hash **BCrypt** salvo no banco de dados.
-3. Se válido, a API devolve um **Token JWT**.
-4. Esse token deve ser enviado no cabeçalho (`Authorization: Bearer {token}`) em todas as requisições subsequentes.
+- ✅ **Endpoints REST** bem definidos e padronizados
+- ✅ **Estrutura de projeto** moderna em Java 17 com Spring Boot 3
+- ✅ **Persistência de dados** em banco de dados relacional (MySQL)
+- ✅ **Migrações automatizadas** utilizando Flyway
+- ✅ **Segurança Stateless** utilizando tokens JWT e senhas criptografadas (BCrypt)
+- ✅ **Tratamento de erros global** devolvendo respostas limpas em formato JSON
 
-## 📍 Endpoints Principais
+---
 
-### Autenticação
-* `POST /login`: Recebe as credenciais e devolve o token JWT.
-  ```json
-  {
-    "login": "aluno@email.com",
-    "senha": "123456"
-  }
-  ```
-  
-### Tópicos (Requer Token JWT)
-* `POST /topicos`: Cria um novo tópico (título e mensagem são obrigatórios e não podem ser duplicados).
-* `GET /topicos`: Lista todos os tópicos abertos.
-* `GET /topicos/{id}`: Detalha um tópico específico por ID.
-* `PUT /topicos/{id}`: Atualiza os dados de um tópico.
-* `DELETE /topicos/{id}`: Exclui um tópico do sistema.
+## 📋 Pré-requisitos
 
-## ⚠️ Tratamento de Erros
+Antes de iniciar, tenha instalado na sua máquina:
 
-A API não devolve o "Trace" de erro do Java para o cliente. Os erros são mapeados e padronizados no formato JSON:
-* **400 Bad Request:** Acionado quando o usuário envia dados inválidos ou em branco (Bean Validation).
-* **403 Forbidden:** Acionado quando o token JWT é inválido, expirou ou a senha de login está incorreta.
-* **404 Not Found:** Acionado quando um ID buscado não existe no banco de dados.
+* ☕ **Java JDK 17+**
+* 🐘 **Maven 3.6+**
+* 🐬 **Banco de dados** (MySQL)
+* 🟪 **Insomnia** ou Postman (Para testar as requisições)
 
-## 🛠️ Como executar o projeto localmente
+---
 
-1. **Clone o repositório:**
-   ```bash
-   git clone [https://github.com/LeilannyRodrigues/forum_hub.git](https://github.com/LeilannyRodrigues/forum_hub.git)
-   ```
+## 📦 Instalação e Execução
 
-2. **Configure o Banco de Dados MySQL:**
-   Crie um banco chamado `forum_hub`. Acesse o arquivo `src/main/resources/application.properties` e insira o seu usuário e senha local do banco:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost/forum_hub
-   spring.datasource.username=root
-   spring.datasource.password=sua_senha_aqui
-   ```
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/LeilannyRodrigues/forum_hub.git
+```
 
-3. **Inicie a Aplicação:**
-   Ao rodar o projeto via IntelliJ ou terminal, o **Flyway** criará as tabelas automaticamente.
+### 2. Configurar o Banco de Dados
+Crie um banco de dados local chamado `forum_hub` no seu MySQL.
+Abra o arquivo `src/main/resources/application.properties` e configure as credenciais da sua máquina:
+```properties
+spring.datasource.url=jdbc:mysql://localhost/forum_hub
+spring.datasource.username=root
+spring.datasource.password=sua_senha_aqui
+```
 
-4. **Crie um usuário de teste no Banco:**
-   Como as senhas precisam estar obrigatoriamente criptografadas, rode este script no seu MySQL Workbench para criar um usuário padrão com a senha `123456`:
-   ```sql
-   INSERT INTO usuarios (nome, email, senha) 
-   VALUES ('Aluno', 'aluno@email.com', '$2a$10$Y50UaMFOxteibQEYLrwuHeehHYfcoafCopUazP12.rqB41bsolF5.');
-   ```
+### 3. Criar o usuário de teste
+Para testar o login na API, é necessário ter um usuário com senha criptografada. Execute o script abaixo no seu banco de dados para criar o usuário padrão com a senha `123456`:
+```sql
+INSERT INTO usuarios (nome, email, senha) 
+VALUES ('Aluno', 'aluno@email.com', '$2a$10$Y50UOPQxteJIGqYVuMeehOFyfCooWCoPiuGP12.rqbD4IboSF5.j');
+```
 
-   ---
+### 4. Rodar a aplicação
+Inicie a aplicação rodando a classe `Application.java` na sua IDE (IntelliJ). O Flyway criará todas as tabelas automaticamente.
+
+---
+
+## 📌 Exemplos de Endpoints
+
+Abaixo estão as rotas disponíveis na aplicação. 
+
+| Método | Endpoint | Acesso | Descrição |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/login` | 🔓 Público | Recebe `email` e `senha`, devolve o Token JWT |
+| **GET** | `/topicos` | 🔓 Público | Lista todos os tópicos abertos |
+| **GET** | `/topicos/{id}` | 🔓 Público | Detalha um tópico específico pelo ID |
+| **POST** | `/topicos` | 🔐 Protegido | Cria um novo tópico (Autor via token) |
+| **PUT** | `/topicos/{id}` | 🔐 Protegido | Atualiza dados de um tópico |
+| **DELETE** | `/topicos/{id}` | 🔐 Protegido | Exclui um tópico do sistema |
 
    **Desenvolvido para o Challenge Fórum Hub** **Alura + Oracle Next Education (ONE) - 2026**
