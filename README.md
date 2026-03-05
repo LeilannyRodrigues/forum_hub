@@ -40,7 +40,7 @@ Antes de iniciar, tenha instalado na sua máquina:
 
 ### 1. Clonar o repositório
 ```bash
-git clone [https://github.com/LeilannyRodrigues/forum_hub.git](https://github.com/LeilannyRodrigues/forum_hub.git)
+git clone https://github.com/LeilannyRodrigues/forum_hub.git
 ```
 
 ### 2. Configurar o Banco de Dados
